@@ -35,38 +35,67 @@ const generic = [
         type: 'input',
         name: 'email',
         message: 'What is your email address?'
+    },
+    {
+        type: 'input',
+        name: 'officeNumber',
+        message: 'What is your office number?',
+        when: answers => answers.role === 'Manager'
+    },
+    {
+        type: 'input',
+        name: 'github',
+        message: 'What is your github username?',
+        when: answers => answers.role === 'Engineer'
+    },
+    {
+        type: 'input',
+        name: 'school',
+        message: 'What is the name of your school?',
+        when: answers => answers.role === 'Intern'
+    },
+    {
+        type: 'confirm',
+        name: 'another',
+        message: "Would you like to input another member of the team?"
     }
 ];
 
-const promptUser = (questions) => { return inquirer.prompt(questions) };
+const promptUser =  () => {
+    return inquirer.prompt(generic).then(async answers => {
 
-function differentiate(role) {
-    switch (role) {
-        case 'Manager':
-            return {
-                type: 'input',
-                name: 'officeNumber',
-                message: 'What is your office number?'
-            }
-        case 'Engineer':
-            return {
-                type: 'input',
-                name: 'github',
-                message: 'What is your github username?'
-            }
-        case 'Intern':
-            return {
-                type: 'input',
-                name: 'school',
-                message: 'What is the name of your school?'
-            }
-    }
-}
+        switch (answers.role) {
+            case 'Manager':
+                const manager = new Manager(answers.name, answers.id, answers.email, answers.officeNumber);
+                teamMates.push(manager);
+                break;
+            case 'Engineer':
+                const engineer = new Engineer(answers.name, answers.id, answers.email, answers.github);
+                teamMates.push(engineer);
+                break;
+            case 'Intern':
+                const intern = new Intern(answers.name, answers.id, answers.email, answers.school);
+                teamMates.push(intern);
+                break;
+        };
+
+        if (answers.another === true) {
+            await promptUser();
+        }
+        else {
+            writeToFile();
+        }
+    }).catch(error => console.log(error));
+};
+
+
 
 // After the user has input all employees desired, call the `render` function (required above) and pass in an array containing all employee objects; the `render` function will generate and return a block of HTML including templated divs for each employee!
 
-function writeToFile(fileName, data) {
-    fs.writeFile(fileName, data, () => {
+function writeToFile() {
+    const page = render(teamMates);
+    fs.writeFile(outputPath, page, () => {
+        
         console.log("wrote successful");
     });
 
@@ -76,8 +105,8 @@ function writeToFile(fileName, data) {
 
 const init = async () => {
     const answers = await promptUser();
-    const page = await render(teamMates);
-    const html = writeToFile('team.html', page);
+    // const page = await render(teamMates);
+    // const html = await writeToFile(outputPath, page);
 }
 
 init();
