@@ -22,7 +22,7 @@ The following application uses node js to create a webpage that displays the con
 
 [Github Repository](https://github.com/espoldi/TeamProfile)
 
-[Video Walkthrough]()
+[Video Walkthrough](https://drive.google.com/file/d/17zjBjjuykD4qCKBp20imkt37R7c3ivFy/view?usp=sharing)
 
 ## License
 
