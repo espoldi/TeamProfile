@@ -27,45 +27,35 @@ const questList = [
     {
         type: 'input',
         name: 'id',
-        message: 'What is your ID number?',
-        validate: (value) => {
-            let pass = value.match(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
-            if (pass) { return true; }
-            return 'Please enter a valid employee ID number.';
-        }
+        message: 'What is your ID number?'
     },
     {
         type: 'input',
         name: 'email',
-        message: 'What is your email address?',
+        message: 'What is your email address?'
     },
     {
         type: 'input',
         name: 'officeNumber',
         message: 'What is your office number?',
-        when: answers => answers.role === 'Manager',
-        validate: (value) => {
-            let pass = value.match(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
-            if (pass) { return true; }
-            return 'Please enter a valid office number.';
-        }
+        when: answers => answers.role === 'Manager'
     },
     {
         type: 'input',
         name: 'github',
         message: 'What is your github username?',
-        when: answers => answers.role === 'Engineer',
+        when: answers => answers.role === 'Engineer'
     },
     {
         type: 'input',
         name: 'school',
         message: 'What is the name of your school?',
-        when: answers => answers.role === 'Intern',
+        when: answers => answers.role === 'Intern'
     },
     {
         type: 'confirm',
         name: 'another',
-        message: "Would you like to input another member of the team?"
+        message: 'Would you like to input another member of the team?'
     }
 ];
 
